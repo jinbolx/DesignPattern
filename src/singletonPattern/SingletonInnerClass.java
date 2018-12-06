@@ -10,7 +10,7 @@ public class SingletonInnerClass {
     }
 
     public static class SingletonHolder {
-        static SingletonInnerClass instance = new SingletonInnerClass();
+        static final SingletonInnerClass instance = new SingletonInnerClass();
     }
 
 
