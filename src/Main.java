@@ -10,6 +10,7 @@ import observerPattern.ObserverImpl1;
 import observerPattern.ObserverImpl2;
 import observerPattern.ObserverImpl3;
 import singletonPattern.SingletonClass;
+import singletonPattern.SingletonEnumClass;
 import singletonPattern.SingletonLazy;
 import singletonPattern.SingletonLazyThreadSafety;
 import singletonPattern.SingletonParent;
@@ -50,6 +51,8 @@ public class Main {
         singletonParent1.printMessage();
         SingletonParent singletonParent2 = SingletonLazyThreadSafety.getInstance();
         singletonParent2.printMessage();
+       SingletonEnumClass enumClass= SingletonEnumClass.getInstance();
+       enumClass.doSomething();
     }
 
     private static void multiThread() {
