@@ -1,3 +1,5 @@
+import entity.Animal;
+import entity.Dog;
 import java.util.ArrayList;
 import java.util.List;
 import multiThread.Balance;
@@ -24,6 +26,11 @@ public class Main {
         singletonPatternTest();
         multiThread();
         strategyPatternTest();
+        Animal animal=new Dog();
+        System.out.println("----------------");
+        animal.display();
+        System.out.println((animal.age));
+
     }
 
     /**
