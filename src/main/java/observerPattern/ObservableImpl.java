@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ObservableImpl implements Observable{
-    private List<Observer> observerList=new ArrayList<>();
+    private final List<Observer> observerList=new ArrayList<>();
     public void addObserver(Observer observer){
         observerList.add(observer);
     }

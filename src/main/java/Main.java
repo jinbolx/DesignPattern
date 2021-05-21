@@ -1,5 +1,3 @@
-import entity.Animal;
-import entity.Dog;
 import java.util.ArrayList;
 import java.util.List;
 import multiThread.Balance;
@@ -11,6 +9,13 @@ import observerPattern.Observer;
 import observerPattern.ObserverImpl1;
 import observerPattern.ObserverImpl2;
 import observerPattern.ObserverImpl3;
+import proxyPattern.ProxyInterface;
+import proxyPattern.cglib.ProxyCg;
+import proxyPattern.cglib.TargetCg;
+import proxyPattern.dynamic.ProxyDynamic;
+import proxyPattern.dynamic.TargetDynamic;
+import proxyPattern.stat.ProxyForTarget;
+import proxyPattern.stat.Target;
 import singletonPattern.SingletonClass;
 import singletonPattern.SingletonEnumClass;
 import singletonPattern.SingletonLazy;
@@ -22,15 +27,17 @@ import strategyPattern.StrategyImpl2;
 public class Main {
 
     public static void main(String[] args) {
-        observerPatternTest();
-        singletonPatternTest();
-        multiThread();
-        strategyPatternTest();
-        Animal animal=new Dog();
-        System.out.println("----------------");
-        animal.display();
-        System.out.println((animal.age));
-
+//        observerPatternTest();
+//        singletonPatternTest();
+//        multiThread();
+//        strategyPatternTest();
+//        Animal animal=new Dog();
+//        System.out.println("----------------");
+//        animal.display();
+//        System.out.println((animal.age));
+        staticProxy();
+        dynamicProxy();
+        cgProxy();
     }
 
     /**
@@ -58,8 +65,8 @@ public class Main {
         singletonParent1.printMessage();
         SingletonParent singletonParent2 = SingletonLazyThreadSafety.getInstance();
         singletonParent2.printMessage();
-       SingletonEnumClass enumClass= SingletonEnumClass.getInstance();
-       enumClass.doSomething();
+        SingletonEnumClass enumClass = SingletonEnumClass.getInstance();
+        enumClass.doSomething();
     }
 
     private static void multiThread() {
@@ -73,11 +80,11 @@ public class Main {
         }
         while (true) {
             if (isAllThreadFinish(threads)) {
-                long endTime=System.currentTimeMillis();
-                printDuringTime(endTime-startTime);
-                System.out.println("balance: "+balance.getBalance()+" syncBalance: "+balance.getSyncBalance()
-                +" volatileBalance: "+balance.getVolaBalance());
-               break;
+                long endTime = System.currentTimeMillis();
+                printDuringTime(endTime - startTime);
+                System.out.println("balance: " + balance.getBalance() + " syncBalance: " + balance.getSyncBalance()
+                        + " volatileBalance: " + balance.getVolaBalance());
+                break;
             }
         }
 
@@ -99,10 +106,29 @@ public class Main {
     private static void printDuringTime(long during) {
         System.out.println("操作耗时: " + during);
     }
-    public static void strategyPatternTest(){
-        Context context=new Context();
+
+    public static void strategyPatternTest() {
+        Context context = new Context();
         context.execute();
         context.setStrategyInterface(new StrategyImpl2());
         context.execute();
+    }
+
+    public static void staticProxy() {
+        ProxyInterface proxyInterface = new Target();
+        ProxyForTarget proxyForTarget = new ProxyForTarget(proxyInterface);
+        proxyForTarget.doSome("111");
+        proxyForTarget.doElse();
+    }
+
+    public static void dynamicProxy() {
+        ProxyInterface targetDynamic = new TargetDynamic();
+        ProxyInterface proxyInterface = (ProxyInterface) new ProxyDynamic(targetDynamic).getProxyInstance();
+        System.out.println("dynamicProxy=====: "+proxyInterface.doSome("222"));
+        proxyInterface.doElse();
+    }
+    public static void cgProxy(){
+        TargetCg targetCg= ((TargetCg) new ProxyCg(new TargetCg()).getInstance());
+        System.out.println("cgProxy------"+targetCg.doSome());
     }
 }
