@@ -12,7 +12,7 @@ import observerPattern.ObserverImpl3;
 import proxyPattern.ProxyInterface;
 import proxyPattern.cglib.ProxyCg;
 import proxyPattern.cglib.TargetCg;
-import proxyPattern.dynamic.ProxyDynamic;
+import proxyPattern.dynamic.ProxyFactory;
 import proxyPattern.dynamic.TargetDynamic;
 import proxyPattern.stat.ProxyForTarget;
 import proxyPattern.stat.Target;
@@ -122,13 +122,13 @@ public class Main {
     }
 
     public static void dynamicProxy() {
-        ProxyInterface targetDynamic = new TargetDynamic();
-        ProxyInterface proxyInterface = (ProxyInterface) new ProxyDynamic(targetDynamic).getProxyInstance();
-        System.out.println("dynamicProxy=====: "+proxyInterface.doSome("222"));
+        ProxyInterface proxyInterface = ProxyFactory.get(new TargetDynamic(), null);
+        System.out.println("dynamicProxy=====: " + proxyInterface.doSome("222"));
         proxyInterface.doElse();
     }
-    public static void cgProxy(){
-        TargetCg targetCg= ((TargetCg) new ProxyCg(new TargetCg()).getInstance());
-        System.out.println("cgProxy------"+targetCg.doSome());
+
+    public static void cgProxy() {
+        TargetCg targetCg = ((TargetCg) new ProxyCg(new TargetCg()).getInstance());
+        System.out.println("cgProxy------" + targetCg.doSome());
     }
 }
